@@ -1,0 +1,381 @@
+:root {
+  --parliament: #2b2f77;
+  --parliament-dark: #1f235e;
+  --parliament-soft: #dfe5ff;
+  --parliament-border: #c6cffc;
+
+  --bg: #f3f3f3;
+  --bg-2: #f3f3f3;
+  --surface: #ffffff;
+  --surface-soft: #f2f2f2;
+  --chat-bg: #fbfbfb;
+  --text: #121212;
+  --bubble-bot-border: #d6d6d6;
+
+  --error-bg: #fde8e8;
+  --error-text: #b42318;
+
+  --bg-letters: rgba(43, 47, 119, 0.06);
+  --bg-pattern-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='220' viewBox='0 0 420 220'%3E%3Cg fill='%232b2f77' fill-opacity='0.05'%3E%3Ctext x='20' y='70' font-size='42' font-family='Arial, Helvetica, sans-serif'%3Eh e e e l p .%3C/text%3E%3Ctext x='120' y='145' font-size='42' font-family='Arial, Helvetica, sans-serif'%3Eh e e e l p .%3C/text%3E%3Ctext x='230' y='220' font-size='42' font-family='Arial, Helvetica, sans-serif'%3Eh e e e l p .%3C/text%3E%3C/g%3E%3C/svg%3E");
+}
+
+:root[data-theme="dark"] {
+  --parliament: #dcdcdc;
+  --parliament-dark: #dcdcdc;
+  --parliament-soft: #1c1c1c;
+  --parliament-border: #5a5a5a;
+
+  --bg: #101010;
+  --bg-2: #101010;
+  --surface: #181818;
+  --surface-soft: #222222;
+  --chat-bg: #141414;
+  --text: #f2f2f2;
+  --bubble-bot-border: #444444;
+
+  --error-bg: #2a1111;
+  --error-text: #ffb4b4;
+
+  --bg-letters: rgba(255, 255, 255, 0.05);
+  --bg-pattern-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='220' viewBox='0 0 420 220'%3E%3Cg fill='%23ffffff' fill-opacity='0.045'%3E%3Ctext x='20' y='70' font-size='42' font-family='Arial, Helvetica, sans-serif'%3Eh e e e l p .%3C/text%3E%3Ctext x='120' y='145' font-size='42' font-family='Arial, Helvetica, sans-serif'%3Eh e e e l p .%3C/text%3E%3Ctext x='230' y='220' font-size='42' font-family='Arial, Helvetica, sans-serif'%3Eh e e e l p .%3C/text%3E%3C/g%3E%3C/svg%3E");
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f3f3f3;
+  color: var(--text);
+  overflow: hidden;
+
+  body::before {
+  content: "";
+  position: fixed;
+  inset: -20%;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  background-image: var(--bg-pattern-image);
+  background-repeat: repeat;
+  background-size: 420px 220px;
+  transform: rotate(-12deg);
+  transform-origin: center;
+}
+}
+
+:root[data-theme="dark"] html,
+:root[data-theme="dark"] body {
+  background: #101010;
+}
+
+button,
+textarea {
+  font: inherit;
+}
+
+.page {
+  height: 100vh;
+  overflow: hidden;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  position: relative;
+z-index: 1;
+}
+
+.appShell {
+  width: 100%;
+  max-width: 920px;
+  height: 88vh;
+  margin: 0;
+  background: var(--surface);
+  border: 1px solid var(--parliament-border);
+  border-radius: 8px;
+  padding: 14px;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.appShell::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid var(--parliament-border);
+  border-radius: 4px;
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+
+.topBar {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.modeBtn,
+.resetBtn,
+.sendBtn,
+.themeBtn {
+  border: 1px solid var(--parliament-border);
+  border-radius: 6px;
+  padding: 9px 14px;
+  cursor: pointer;
+  transition: none;
+}
+
+.modeBtn,
+.resetBtn,
+.themeBtn {
+  background: var(--surface-soft);
+  color: var(--text);
+}
+
+.modeBtn.active {
+  background: var(--parliament);
+  color: var(--bg);
+  border-color: var(--parliament-border);
+}
+
+:root:not([data-theme="dark"]) .modeBtn.active {
+  color: white;
+}
+
+.themeBtn {
+  margin-left: auto;
+  min-width: 46px;
+  text-align: center;
+  font-size: 16px;
+  padding: 8px 0;
+}
+
+.chatBox {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--parliament-border);
+  border-radius: 6px;
+  padding: 10px;
+  background: var(--chat-bg);
+}
+
+.bubble {
+  max-width: 62%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.userBubble {
+  align-self: flex-end;
+  background: #ececec;
+  color: #111111;
+  border: 1px solid #cfcfcf;
+}
+
+.botBubble {
+  align-self: flex-start;
+  background: var(--surface-soft);
+  color: var(--text);
+  border: 1px solid var(--bubble-bot-border);
+}
+
+:root[data-theme="dark"] .userBubble {
+  background: #242424;
+  color: #f2f2f2;
+  border: 1px solid #555555;
+}
+
+.composer {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.composer textarea {
+  flex: 1;
+  min-height: 84px;
+  max-height: 180px;
+  resize: vertical;
+  border-radius: 6px;
+  border: 1px solid var(--parliament-border);
+  padding: 12px;
+  outline: none;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.composer textarea:focus {
+  border-color: var(--parliament-border);
+  box-shadow: none;
+}
+
+.sendBtn {
+  background: var(--surface-soft);
+  color: var(--text);
+  min-width: 120px;
+  height: 46px;
+}
+
+.sendBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.errorBox {
+  margin-top: 10px;
+  background: var(--error-bg);
+  color: var(--error-text);
+  border-radius: 6px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.footerLogo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.footerLogoImage {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  opacity: 0.9;
+}
+
+.altLabel {
+  color: #ec4899;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 10px;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .appShell {
+    height: 90vh;
+    padding: 12px;
+    border-radius: 6px;
+  }
+
+  .topBar {
+    gap: 8px;
+  }
+
+  .modeBtn,
+  .resetBtn {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 0;
+    padding: 10px 12px;
+  }
+
+  .themeBtn {
+    margin-left: 0;
+    flex: 1 1 100%;
+  }
+
+  .chatBox {
+    flex: 1;
+    min-height: 0;
+    padding: 10px;
+  }
+
+  .bubble {
+    max-width: 88%;
+    padding: 11px 12px;
+  }
+
+  .composer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .composer textarea {
+    min-height: 110px;
+  }
+
+  .sendBtn {
+    width: 100%;
+    height: 48px;
+  }
+
+  .footerLogoImage {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modeBtn,
+  .resetBtn,
+  .themeBtn {
+    flex: 1 1 100%;
+  }
+
+  .bubble {
+    max-width: 100%;
+  }
+
+  .footerLogoImage {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+html,
+body,
+.appShell,
+.topBar,
+.modeBtn,
+.resetBtn,
+.sendBtn,
+.themeBtn,
+.chatBox,
+.bubble,
+.userBubble,
+.botBubble,
+.composer textarea,
+.errorBox,
+.footerLogoImage {
+  transition:
+    background-color 0.38s ease,
+    color 0.38s ease,
+    border-color 0.38s ease,
+    box-shadow 0.38s ease,
+    opacity 0.38s ease;
+}
+
+.resetBtnSpaced {
+  margin-left: 77px;
+}
