@@ -2,7 +2,7 @@
 
 heeelp. is a simple student web application for English-Turkish language support.
 
-is active now: https://heeelp-eta.vercel.app/
+is online now: https://heeelp-eta.vercel.app/
 
 It has three main functions:
 
